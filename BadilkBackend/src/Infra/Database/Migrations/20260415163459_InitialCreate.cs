@@ -26,8 +26,11 @@ namespace BadilkBackend.src.Infra.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Brands", x => x.Id);
+                    {
+                        table.PrimaryKey("PK_Brands", x => x.Id);
+                    }
                 });
+
         }
 
         /// <inheritdoc />

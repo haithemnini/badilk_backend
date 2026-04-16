@@ -34,7 +34,7 @@ public sealed class GoogleTokenVerifier(IOptions<GoogleOidcOptions> options) : I
             var parameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidIssuers = new[] { "accounts.google.com", "https://accounts.google.com" },
+                ValidIssuers = ["accounts.google.com", "https://accounts.google.com"],
                 ValidateAudience = true,
                 ValidAudience = options.Value.ClientId,
                 ValidateLifetime = true,

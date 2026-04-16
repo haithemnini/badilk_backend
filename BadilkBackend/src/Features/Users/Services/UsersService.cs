@@ -88,10 +88,9 @@ public sealed class UsersService(IUsersRepo users) : IUsersService
     public async Task<List<UserWithProfileDto>> ListAsync(CancellationToken cancellationToken = default)
     {
         var list = await users.ListAsync(cancellationToken);
-        return list
+        return [.. list
             .Where(u => u.Profile is not null)
-            .Select(ToWithProfileDto)
-            .ToList();
+            .Select(ToWithProfileDto)];
     }
 
     public async Task<UserWithProfileDto?> UpdateMeAsync(

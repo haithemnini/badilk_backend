@@ -30,33 +30,36 @@ namespace BadilkBackend.src.Infra.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
-                });
+                    {
+                        table.PrimaryKey("PK_users", x => x.Id);
+                    }
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Profiles",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Role = table.Column<string>(type: "text", nullable: false, defaultValue: "user"),
-                    Status = table.Column<string>(type: "text", nullable: false, defaultValue: "active"),
-                    Plan = table.Column<string>(type: "text", nullable: false, defaultValue: "free"),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    ExpiryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ShowAds = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_profiles", x => x.UserId);
-                    table.ForeignKey(
-                        name: "FK_profiles_users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                    columns: table => new
+                    {
+                        UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                        Role = table.Column<string>(type: "text", nullable: false, defaultValue: "user"),
+                        Status = table.Column<string>(type: "text", nullable: false, defaultValue: "active"),
+                        Plan = table.Column<string>(type: "text", nullable: false, defaultValue: "free"),
+                        StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                        ExpiryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                        ShowAds = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                        CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                        UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
+                    },
+                    constraints: table =>
+                    {
+                        table.PrimaryKey("PK_profiles", x => x.UserId);
+                        table.ForeignKey(
+                            name: "FK_profiles_users_UserId",
+                            column: x => x.UserId,
+                            principalTable: "users",
+                            principalColumn: "Id",
+                            onDelete: ReferentialAction.Cascade);
+                    });
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_Email",
@@ -66,7 +69,7 @@ namespace BadilkBackend.src.Infra.Database.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_users_Provider_ProviderUserId",
                 table: "users",
-                columns: new[] { "Provider", "ProviderUserId" },
+                columns: ["Provider", "ProviderUserId"],
                 unique: true);
         }
 
