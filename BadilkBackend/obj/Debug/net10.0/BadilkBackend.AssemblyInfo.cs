@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BadilkBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+456856e6a72977dbf4a2ab96a432b47eeeabdb73")]
 [assembly: System.Reflection.AssemblyProductAttribute("BadilkBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BadilkBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -112,6 +112,7 @@
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/BadilkBackend.csproj.CoreCompileInputs.cache
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/BadilkBackend.MvcApplicationPartsAssemblyInfo.cs
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/BadilkBackend.MvcApplicationPartsAssemblyInfo.cache
+/Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/BadilkBackend.sourcelink.json
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/rjimswa.dswa.cache.json
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json

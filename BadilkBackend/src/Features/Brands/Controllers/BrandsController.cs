@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Asp.Versioning;
 using BadilkBackend.src.Core.Dtos.Responses;
 using BadilkBackend.src.Features.Brands.Dtos;
-using BadilkBackend.src.Features.Brands.Repos;
+using BadilkBackend.src.Features.Brands.Services;
 
 namespace BadilkBackend.src.Features.Brands.Controllers;
 
@@ -10,9 +10,9 @@ namespace BadilkBackend.src.Features.Brands.Controllers;
 [Route("api/v{version:apiVersion}/[controller]")]
 [Produces("application/json")]
 [ApiVersion(1.0)]
-public class BrandsController(IBrandsRepo brands) : ControllerBase
+public class BrandsController(IBrandsService brands) : ControllerBase
 {
-    private readonly IBrandsRepo _brands = brands;
+    private readonly IBrandsService _brands = brands;
 
     [HttpGet]
     public async Task<ActionResult<ApiResponse<IReadOnlyList<BrandDto>>>> Get(CancellationToken cancellationToken)
@@ -33,23 +33,26 @@ public class BrandsController(IBrandsRepo brands) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ApiResponse<BrandDto>>> Create([FromBody] CreateBrandRequest request, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(request.Name))
-            return BadRequest(ApiResponse<BrandDto>.Fail("Name is required", 400));
-
-        var created = await _brands.CreateAsync(request, cancellationToken);
-        return CreatedAtAction(nameof(GetById),
-            new { id = created.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "1.0" },
-            ApiResponse<BrandDto>.Ok(created, "Created", 201));
+        return await _brands.CreateAsync(request, cancellationToken) switch
+        {
+            CreateBrandResult.Created created => CreatedAtAction(nameof(GetById),
+                new { id = created.Brand.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "1.0" },
+                ApiResponse<BrandDto>.Ok(created.Brand, "Created", 201)),
+            CreateBrandResult.InvalidName => BadRequest(ApiResponse<BrandDto>.Fail("Name is required", 400)),
+            _ => throw new InvalidOperationException(),
+        };
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<ApiResponse<BrandDto>>> Update(Guid id, [FromBody] UpdateBrandRequest request, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(request.Name))
-            return BadRequest(ApiResponse<BrandDto>.Fail("Name is required", 400));
-
-        var updated = await _brands.UpdateAsync(id, request, cancellationToken);
-        return updated ? Ok(ApiResponse<BrandDto>.Ok()) : NotFound(ApiResponse<BrandDto>.Fail("Brand not found", 404));
+        return await _brands.UpdateAsync(id, request, cancellationToken) switch
+        {
+            UpdateBrandResult.Saved => Ok(ApiResponse<BrandDto>.Ok()),
+            UpdateBrandResult.InvalidName => BadRequest(ApiResponse<BrandDto>.Fail("Name is required", 400)),
+            UpdateBrandResult.BrandNotFound => NotFound(ApiResponse<BrandDto>.Fail("Brand not found", 404)),
+            _ => throw new InvalidOperationException(),
+        };
     }
 
     [HttpDelete("{id:guid}")]

@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+using BadilkBackend.src.Features.Banners.Repos;
+using BadilkBackend.src.Features.Banners.Services;
 using BadilkBackend.src.Features.Brands.Repos;
+using BadilkBackend.src.Features.Brands.Services;
 
 namespace BadilkBackend.src.Infra;
 
@@ -33,6 +36,10 @@ public static class InfraSetupExtensions
         // External Dependencies
 
         services.AddScoped<IBrandsRepo, BrandsRepo>();
+        services.AddScoped<IBrandsService, BrandsService>();
+
+        services.AddScoped<IBannersRepo, BannersRepo>();
+        services.AddScoped<IBannersService, BannersService>();
         //----------------------------------------------------------------------//
 
         return services;

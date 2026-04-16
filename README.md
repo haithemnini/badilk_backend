@@ -1,3 +1,3 @@
-# badilk_backend
-# badilk_backend
-# badilk_backend
+# Badilk backend
+
+API backend for Badilk (ASP.NET Core).
