@@ -60,6 +60,11 @@
               "version": "[8.1.1, )",
               "versionCentrallyManaged": true
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.6, )",
+              "versionCentrallyManaged": true
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.6, )",
@@ -101,6 +106,7 @@
             "Asp.Versioning.Http": "8.1.1",
             "Asp.Versioning.Mvc": "8.1.1",
             "Asp.Versioning.Mvc.ApiExplorer": "8.1.1",
+            "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.6",
             "Microsoft.AspNetCore.OpenApi": "10.0.6",
             "Microsoft.EntityFrameworkCore": "10.0.5",
             "Microsoft.EntityFrameworkCore.Design": "10.0.5",

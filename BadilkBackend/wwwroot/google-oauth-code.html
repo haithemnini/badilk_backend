@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Token Generator (Code → Token)</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #18181f;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.15);
+      --accent: #4f8ef7;
+      --accent-dim: rgba(79,142,247,0.12);
+      --accent-border: rgba(79,142,247,0.3);
+      --green: #3ecf8e;
+      --green-dim: rgba(62,207,142,0.1);
+      --red: #f87171;
+      --red-dim: rgba(248,113,113,0.1);
+      --text: #e8e8f0;
+      --text-muted: #666680;
+      --text-dim: #9999b0;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'Tajawal', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(79,142,247,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .wrapper { width: 100%; max-width: 560px; }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-top: 1rem;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .logo-icon svg { width: 18px; height: 18px; }
+
+    header h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.5px; color: var(--text); }
+    header p { font-size: 14px; color: var(--text-muted); margin-top: 6px; font-weight: 300; }
+
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .step:hover { border-color: var(--border-hover); }
+
+    .step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+
+    .step-num {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border-hover);
+      font-family: var(--mono);
+      font-size: 11px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .step-title { font-size: 14px; font-weight: 500; color: var(--text); }
+
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 400; letter-spacing: 0.3px; }
+
+    .field input {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: var(--mono);
+      transition: border-color 0.2s, background 0.2s;
+      direction: ltr;
+    }
+
+    .field input:focus { outline: none; border-color: var(--accent-border); background: rgba(79,142,247,0.04); }
+    .field input::placeholder { color: var(--text-muted); font-family: var(--mono); }
+
+    .hint { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; font-weight: 300; }
+    .hint code { font-family: var(--mono); font-size: 11px; color: var(--accent); background: var(--accent-dim); padding: 2px 6px; border-radius: 4px; }
+
+    .btn {
+      width: 100%;
+      padding: 11px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--sans);
+      cursor: pointer;
+      transition: all 0.15s;
+      border: 1px solid var(--border-hover);
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
+    .btn:active { transform: scale(0.99); }
+    .btn-primary { background: var(--accent); border-color: transparent; color: #fff; }
+    .btn-primary:hover { background: #6aa0f8; }
+
+    .result-card {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--green-dim);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .result-card.visible { display: block; border-color: rgba(62,207,142,0.2); }
+
+    .result-head { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; }
+
+    .check-icon {
+      width: 22px; height: 22px;
+      background: var(--green-dim);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .tabs { display: flex; gap: 6px; margin-bottom: 1rem; background: var(--surface2); padding: 4px; border-radius: 8px; }
+
+    .tab {
+      flex: 1; padding: 7px; font-size: 12px; font-weight: 500; font-family: var(--sans);
+      border: none; border-radius: 6px; cursor: pointer; background: transparent;
+      color: var(--text-muted); transition: all 0.15s;
+    }
+
+    .tab.active { background: var(--surface); color: var(--text); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .token-area {
+      position: relative;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      padding-top: 38px;
+    }
+
+    .token-text {
+      font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+      word-break: break-all; line-height: 1.7; max-height: 120px;
+      overflow-y: auto; direction: ltr; text-align: left;
+    }
+
+    .copy-btn {
+      position: absolute; top: 8px; left: 8px;
+      padding: 4px 10px; font-size: 11px; font-family: var(--sans);
+      border: 1px solid var(--border-hover); border-radius: 5px;
+      background: var(--surface); color: var(--text-dim); cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .copy-btn.copied { color: var(--green); border-color: rgba(62,207,142,0.3); }
+
+    .info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid var(--border); gap: 1rem;
+    }
+
+    .info-row:last-child { border-bottom: none; }
+    .info-key { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+    .info-val { font-size: 12px; font-family: var(--mono); color: var(--text); text-align: left; direction: ltr; word-break: break-all; }
+    .info-val.green { color: var(--green); }
+    .info-val.red { color: var(--red); }
+
+    .error-card {
+      display: none;
+      background: var(--red-dim);
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .error-card.visible { display: block; }
+    .error-title { font-size: 13px; font-weight: 500; color: var(--red); margin-bottom: 4px; }
+    .error-detail { font-size: 12px; color: var(--text-muted); font-family: var(--mono); }
+
+    .loading { opacity: 0.6; pointer-events: none; }
+    .auto-msg { text-align: center; padding: 1rem; font-size: 14px; color: var(--green); }
+
+    footer { text-align: center; margin-top: 2rem; font-size: 12px; color: var(--text-muted); padding-bottom: 2rem; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+
+    <header>
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+        </div>
+      </div>
+      <h1>Google Token Generator</h1>
+      <p>احصل على ID Token لتست الـ API مباشرة (Code → Token)</p>
+    </header>
+
+    <div class="auto-msg" id="autoMsg" style="display: none;"></div>
+
+    <!-- Step 1 -->
+    <div class="step" id="step1">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <span class="step-title">بيانات الـ OAuth</span>
+      </div>
+
+      <p class="hint">
+        تنبيه: إدخال <code>Client Secret</code> في المتصفح للاختبار فقط.
+      </p>
+
+      <div class="field">
+        <label>Client ID</label>
+        <input type="text" id="clientId" placeholder="xxxxx.apps.googleusercontent.com" />
+      </div>
+      <div class="field">
+        <label>Client Secret</label>
+        <input type="password" id="clientSecret" placeholder="GOCSPX-xxxxxxxxxxxxxxxxxx" />
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" id="step2">
+      <div class="step-head">
+        <div class="step-num">2</div>
+        <span class="step-title">تسجيل الدخول بجوجل</span>
+      </div>
+      <p class="hint">اضغط الزر — ستفتح نافذة Google. بعد تسجيل الدخول، سيتم استخراج الـ <code>code</code> تلقائياً وتبديله بـ <code>id_token</code>.</p>
+      <button class="btn btn-primary" onclick="openGoogleAuth()">فتح Google Login ↗</button>
+    </div>
+
+    <!-- Step 3 (manual fallback) -->
+    <div class="step" id="step3">
+      <div class="step-head">
+        <div class="step-num">3</div>
+        <span class="step-title">أو الصق Authorization Code يدوياً</span>
+      </div>
+      <div class="field">
+        <label>Authorization Code</label>
+        <input type="text" id="authCode" placeholder="4/0AX4XfWh..." />
+      </div>
+      <button class="btn btn-primary" id="exchangeBtn" onclick="exchangeCode()">احصل على التوكن</button>
+    </div>
+
+    <!-- Error -->
+    <div class="error-card" id="errorCard">
+      <div class="error-title" id="errorTitle">خطأ</div>
+      <div class="error-detail" id="errorDetail"></div>
+    </div>
+
+    <!-- Result -->
+    <div class="result-card" id="resultCard">
+      <div class="result-head">
+        <div class="check-icon">✓</div>
+        <span class="step-title">تم بنجاح</span>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('idToken', this)">ID Token</button>
+        <button class="tab" onclick="switchTab('access', this)">Access Token</button>
+        <button class="tab" onclick="switchTab('info', this)">معلومات</button>
+      </div>
+
+      <div class="tab-content active" id="idToken-tab">
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">أرسل هذا التوكن للـ API في body (<code>id_token</code>).</p>
+        <div class="token-area">
+          <button class="copy-btn" onclick="copyText('idTokenVal', this)">نسخ</button>
+          <div class="token-text" id="idTokenVal">—</div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="access-tab">
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">للوصول لـ Google APIs مثل userinfo</p>
+        <div class="token-area">
+          <button class="copy-btn" onclick="copyText('accessTokenVal', this)">نسخ</button>
+          <div class="token-text" id="accessTokenVal">—</div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="info-tab">
+        <div id="infoRows"></div>
+      </div>
+    </div>
+
+    <footer>Google Token Generator — للاستخدام في التطوير فقط</footer>
+
+  </div>
+
+  <script>
+    const STORAGE = {
+      clientId: "badilk_oauth_client_id",
+      clientSecret: "badilk_oauth_client_secret",
+    };
+
+    function getRedirectUri() {
+      return window.location.origin + "/callback";
+    }
+
+    function openGoogleAuth() {
+      const clientId = document.getElementById('clientId').value.trim();
+      const clientSecret = document.getElementById('clientSecret').value.trim();
+      if (!clientId) { showError('Client ID مطلوب', ''); return; }
+      if (!clientSecret) { showError('Client Secret مطلوب', ''); return; }
+
+      localStorage.setItem(STORAGE.clientId, clientId);
+      localStorage.setItem(STORAGE.clientSecret, clientSecret);
+
+      const params = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: getRedirectUri(),
+        response_type: 'code',
+        scope: 'openid email profile',
+        access_type: 'offline',
+        prompt: 'consent'
+      });
+
+      window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
+    }
+
+    async function exchangeCode(code) {
+      const clientId = document.getElementById('clientId').value.trim() || localStorage.getItem(STORAGE.clientId) || "";
+      const clientSecret = document.getElementById('clientSecret').value.trim() || localStorage.getItem(STORAGE.clientSecret) || "";
+      const authCode = code || document.getElementById('authCode').value.trim();
+
+      document.getElementById('errorCard').classList.remove('visible');
+      document.getElementById('resultCard').classList.remove('visible');
+
+      if (!clientId) return showError('Client ID مطلوب', 'ارجع للخطوة 1');
+      if (!clientSecret) return showError('Client Secret مطلوب', 'ارجع للخطوة 1');
+      if (!authCode) return showError('Authorization Code مطلوب', '');
+
+      const btn = document.getElementById('exchangeBtn');
+      btn.textContent = 'جاري التحميل...';
+      btn.classList.add('loading');
+
+      try {
+        const body = new URLSearchParams({
+          code: authCode,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: getRedirectUri(),
+          grant_type: 'authorization_code'
+        });
+
+        const res = await fetch('https://oauth2.googleapis.com/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString()
+        });
+
+        const data = await res.json();
+
+        if (data.error) {
+          showError(data.error, data.error_description || '');
+          return;
+        }
+
+        document.getElementById('idTokenVal').textContent = data.id_token || 'غير متوفر';
+        document.getElementById('accessTokenVal').textContent = data.access_token || 'غير متوفر';
+
+        let rows = '';
+        if (data.id_token) {
+          try {
+            const parts = data.id_token.split('.');
+            const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+            const fields = {
+              'email': payload.email,
+              'name': payload.name,
+              'sub (User ID)': payload.sub,
+              'email_verified': payload.email_verified ? '✓ مؤكد' : '✗ غير مؤكد',
+              'expires': payload.exp ? new Date(payload.exp * 1000).toLocaleString('ar') : undefined,
+            };
+            for (const [k, v] of Object.entries(fields)) {
+              if (v !== undefined) {
+                const cls = k === 'email_verified' ? (payload.email_verified ? 'green' : 'red') : '';
+                rows += `<div class="info-row"><span class="info-key">${k}</span><span class="info-val ${cls}">${v}</span></div>`;
+              }
+            }
+          } catch (e) {
+            rows = '<p style="color: var(--text-muted); font-size: 12px;">تعذر فك تشفير التوكن</p>';
+          }
+        }
+
+        document.getElementById('infoRows').innerHTML = rows;
+        document.getElementById('resultCard').classList.add('visible');
+
+      } catch (e) {
+        showError('خطأ في الاتصال', e.message);
+      } finally {
+        btn.textContent = 'احصل على التوكن';
+        btn.classList.remove('loading');
+      }
+    }
+
+    function showError(title, detail) {
+      document.getElementById('errorTitle').textContent = title;
+      document.getElementById('errorDetail').textContent = detail;
+      document.getElementById('errorCard').classList.add('visible');
+    }
+
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(name + '-tab').classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function copyText(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'تم ✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'نسخ'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    (function init() {
+      const savedClientId = localStorage.getItem(STORAGE.clientId) || "";
+      const savedClientSecret = localStorage.getItem(STORAGE.clientSecret) || "";
+
+      document.getElementById("clientId").value = savedClientId;
+      document.getElementById("clientSecret").value = savedClientSecret;
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      if (code) {
+        window.history.replaceState({}, '', window.location.pathname);
+
+        const autoMsg = document.getElementById('autoMsg');
+        autoMsg.style.display = 'block';
+        autoMsg.textContent = 'تم استلام Authorization Code — جاري تبديله بالتوكن...';
+
+        exchangeCode(code);
+      }
+    })();
+  </script>
+</body>
+</html>

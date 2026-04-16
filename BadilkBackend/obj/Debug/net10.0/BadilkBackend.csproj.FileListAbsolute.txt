@@ -1,6 +1,7 @@
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/appsettings.Development.json
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/appsettings.json
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/appsettings.Secrets.json
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/BadilkBackend.staticwebassets.runtime.json
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/BadilkBackend.staticwebassets.endpoints.json
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/BadilkBackend
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/BadilkBackend.deps.json
@@ -12,6 +13,7 @@
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Asp.Versioning.Mvc.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Asp.Versioning.Mvc.ApiExplorer.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Humanizer.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.Build.Framework.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.CodeAnalysis.dll
@@ -25,6 +27,12 @@
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.EntityFrameworkCore.Design.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.EntityFrameworkCore.Relational.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.Extensions.DependencyModel.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.IdentityModel.Logging.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.IdentityModel.Protocols.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.IdentityModel.Tokens.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.OpenApi.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Microsoft.VisualStudio.SolutionPersistence.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/Mono.TextTemplating.dll
@@ -39,6 +47,7 @@
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/System.Composition.Hosting.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/System.Composition.Runtime.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/System.Composition.TypedParts.dll
+/Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/cs/Microsoft.CodeAnalysis.resources.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/de/Microsoft.CodeAnalysis.resources.dll
 /Users/admin/projects/badilk_backend/BadilkBackend/bin/Debug/net10.0/es/Microsoft.CodeAnalysis.resources.dll
@@ -117,6 +126,8 @@
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/scopedcss/bundle/BadilkBackend.styles.css
+/Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/compressed/9ajqjpogwc-{0}-9uys1rzpgb-9uys1rzpgb.gz
+/Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/compressed/j3g2o9br4e-{0}-cok33fpqao-cok33fpqao.gz
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/staticwebassets.build.json
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/staticwebassets.build.json.cache
 /Users/admin/projects/badilk_backend/BadilkBackend/obj/Debug/net10.0/staticwebassets.development.json

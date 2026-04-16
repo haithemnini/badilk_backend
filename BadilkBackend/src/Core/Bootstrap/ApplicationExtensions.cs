@@ -47,6 +47,13 @@ public static class ApplicationExtensions
 
         app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
 
+        // Receives Google OAuth callback and redirects to the test page with query params
+        app.MapGet("/callback", (HttpContext ctx) =>
+        {
+            var qs = ctx.Request.QueryString;
+            return Results.Redirect($"/google-oauth-code.html{qs}");
+        }).ExcludeFromDescription();
+
         var api = app.NewVersionedApi();
         var v1 = api.MapGroup("/api/v{version:apiVersion}")
             .HasApiVersion(1.0);
@@ -57,7 +64,12 @@ public static class ApplicationExtensions
     public static WebApplication UseBadilkMiddleware(this WebApplication app)
     {
         app.UseCors("AllowAll");
-        app.UseHttpsRedirection();
+
+        if (!app.Environment.IsDevelopment())
+            app.UseHttpsRedirection();
+
+        app.UseStaticFiles();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
         return app;

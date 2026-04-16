@@ -11,6 +11,6 @@ var app = builder.Build();
 
 if (!await app.EnsureDatabaseConnectionOrStopAsync()) return;
 
-app.MapBadilkEndpoints();
 app.UseBadilkMiddleware();
+app.MapBadilkEndpoints();
 app.Run();

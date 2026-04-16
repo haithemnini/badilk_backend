@@ -7,6 +7,8 @@ using BadilkBackend.src.Features.Banners.Repos;
 using BadilkBackend.src.Features.Banners.Services;
 using BadilkBackend.src.Features.Brands.Repos;
 using BadilkBackend.src.Features.Brands.Services;
+using BadilkBackend.src.Features.Users.Repos;
+using BadilkBackend.src.Features.Users.Services;
 
 namespace BadilkBackend.src.Infra;
 
@@ -40,6 +42,9 @@ public static class InfraSetupExtensions
 
         services.AddScoped<IBannersRepo, BannersRepo>();
         services.AddScoped<IBannersService, BannersService>();
+
+        services.AddScoped<IUsersRepo, UsersRepo>();
+        services.AddScoped<IUsersService, UsersService>();
         //----------------------------------------------------------------------//
 
         return services;
